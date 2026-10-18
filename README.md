@@ -10,6 +10,18 @@
 ### Implemented Features (Workflow: `.github/workflows/docker-tests.yml`):
 * **Build and Deploy:** Automated construction of the Docker image based on the Flask application located in the `homework3/` directory, followed by container execution with port forwarding (`5000:5000`).
 * **HTTP Testing:** Validation of web application availability inside the container by performing a `curl` request. The test succeeds upon receiving an HTTP status code of `200 OK`.
+
+```
+      - name: Test container HTTP response
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:5000)
+          echo "HTTP Response code: $RESPONSE"
+          if [ "$RESPONSE" -ne 200 ]; then
+            echo "Error: Container is not responding with HTTP 200"
+            exit 1
+          fi
+```
+
 * **Security (Non-root access):** Enforcement of process boundaries. The `Dockerfile` includes a `USER 10001` directive to guarantee that the application runs without root privileges.
 
 <img width="975" height="602" alt="image" src="https://github.com/user-attachments/assets/ff256ae0-f07b-4789-8577-feccf1b72ba7" />
@@ -38,10 +50,8 @@
 
 * **Notification Integration:** Automated transmission of deployment and validation metrics to external communication channels (Telegram/Slack) utilizing GitHub Secrets for credential isolation.
 
-<img width="1511" height="880" alt="image" src="https://github.com/user-attachments/assets/961098a7-7fb2-4186-9996-2743323566c1" />
+<img width="975" height="493" alt="image" src="https://github.com/user-attachments/assets/9416110c-dcf3-4b4f-9ed5-b177259fdf78" />
 
-<img width="975" height="358" alt="image" src="https://github.com/user-attachments/assets/6ffae9b8-a9a8-4859-b918-c24d36cb58f5" />
+<img width="975" height="358" alt="image" src="https://github.com/user-attachments/assets/fa9bc399-b129-4400-96fc-9c59c6f86bb1" />
 
-<img width="975" height="358" alt="image" src="https://github.com/user-attachments/assets/1bf68869-6cf7-4e2a-813b-58b526671ea9" />
 
----
